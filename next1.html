@@ -102,19 +102,26 @@
         </div>
 
         <!-- Teks Highlight -->
-        <h1>Hari ini tanggal berapa ya??</h1>
+        <h1>Hari ini tanggal berapa ya?? 🗓️</h1>
 
         <!-- Tombol Pilihan -->
         <div class="buttons">
             <button id="btn-target" class="btn-choice">15 Agustus 2026</button>
-            <button id="btn-today" class="btn-choice">17 Agustus 2026</button>
+            <!-- Teks tombol ini dikosongkan dulu, nanti diisi otomatis oleh JavaScript -->
+            <button id="btn-today" class="btn-choice">Memuat...</button>
         </div>
     </div>
 
-    <!-- Script Logika Permainan Tombol -->
+    <!-- Script Logika Permainan Tombol & Waktu -->
     <script>
         const btnTarget = document.getElementById('btn-target');
         const btnToday = document.getElementById('btn-today');
+
+        // --- BAGIAN BARU: SET TANGGAL HARI INI SECARA OTOMATIS ---
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const hariIni = new Date().toLocaleDateString('id-ID', options);
+        btnToday.textContent = hariIni;
+        // ---------------------------------------------------------
 
         btnToday.addEventListener('click', () => {
             // Tambahkan class 'fade-out' untuk memicu animasi CSS menghilang

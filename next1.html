@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanggal Berapa?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .gif-container {
+            width: 220px;
+            max-width: 100%;
+            pointer-events: none;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 1.5rem;
+            background-color: #fff0f5;
+            padding: 12px 30px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.15);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-height: 50px;
+            /* Menjaga tinggi agar saat satu tombol hilang, layout tidak melompat */
+        }
+
+        button {
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            padding: 12px 24px;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            white-space: nowrap;
+            /* Efek transisi untuk fade out */
+            transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.2s ease;
+        }
+
+        /* Desain awal untuk kedua tombol dibuat seragam */
+        .btn-choice {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        .btn-choice:hover {
+            background-color: #ff1493;
+        }
+
+        /* Class khusus yang ditambahkan via JavaScript untuk membuat tombol menghilang */
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.5) translateY(20px);
+            pointer-events: none;
+            /* Supaya tidak bisa diklik lagi saat sedang menghilang */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Tempat GIF Tenor -->
+        <div class="gif-container">
+            <div class="tenor-gif-embed" data-postid="3603040055391355358" data-share-method="host"
+                data-aspect-ratio="1" data-width="100%">
+                <a href="https://tenor.com/view/bu-bu-gif-3603040055391355358">Bu Bu Sticker</a>from
+                <a href="https://tenor.com/search/bu+bu-stickers">Bu Bu Stickers</a>
+            </div>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        </div>
+
+        <!-- Teks Highlight -->
+        <h1>Hari ini tanggal berapa ya??</h1>
+
+        <!-- Tombol Pilihan -->
+        <div class="buttons">
+            <button id="btn-target" class="btn-choice">15 Agustus 2026</button>
+            <button id="btn-today" class="btn-choice">17 Agustus 2026</button>
+        </div>
+    </div>
+
+    <!-- Script Logika Permainan Tombol -->
+    <script>
+        const btnTarget = document.getElementById('btn-target');
+        const btnToday = document.getElementById('btn-today');
+
+        btnToday.addEventListener('click', () => {
+            // Tambahkan class 'fade-out' untuk memicu animasi CSS menghilang
+            btnToday.classList.add('fade-out');
+
+            // Opsional: hapus elemen dari DOM sepenuhnya setelah animasi selesai (500ms)
+            // agar layout menyesuaikan dan tombol target berada tepat di tengah.
+            setTimeout(() => {
+                btnToday.style.display = 'none';
+            }, 500);
+        });
+
+        btnTarget.addEventListener('click', () => {
+            // Arahkan ke halaman selanjutnya
+            window.location.href = 'next2.html';
+        });
+    </script>
+
+</body>
+
+</html>

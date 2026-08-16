@@ -4,16 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Kesayangan</title>
-
-    <!-- Menggunakan font Google Poppins agar terlihat manis -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
+    <title>Happy Birthday!</title>
+    <!-- Font cantik dan membulat dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #ffffff;
-            /* Tema dominan putih */
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Nunito', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,81 +18,76 @@
             margin: 0;
             text-align: center;
             overflow: hidden;
-            /* Mencegah layar bisa di-scroll saat tombol membesar */
+            /* Mencegah scrollbar saat tombol "Saya" jadi raksasa */
         }
 
         .container {
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 1;
+            padding: 20px;
+            z-index: 10;
         }
 
+        /* Container GIF dibatasi ukurannya dan dibuat unclickable */
         .gif-container {
             width: 220px;
-            /* Ukuran sedang, tidak terlalu besar di HP maupun laptop */
-            margin-bottom: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.2);
-            /* Sedikit bayangan pink */
+            max-width: 100%;
+            pointer-events: none;
+            /* Ini yang bikin GIF gak bisa di-klik */
+            margin-bottom: 10px;
         }
 
         h1 {
-            color: #333;
+            color: #ff69b4;
+            /* Warna Hot Pink */
             font-size: 1.5rem;
+            background-color: #fff0f5;
+            /* Highlight background pink sangat muda */
+            padding: 10px 25px;
+            border-radius: 30px;
             margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .highlight {
-            color: #ff477e;
-            /* Warna teks pink */
-            background-color: #ffe4e8;
-            /* Background highlight pink pudar */
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.15);
         }
 
         .buttons {
             display: flex;
             gap: 15px;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             flex-wrap: wrap;
-            /* Agar responsif di layar hp yang sempit */
+            /* Agar rapi di layar kecil */
         }
 
         button {
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            /* Transisi halus saat ukurannya berubah */
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            /* Efek transisi mulus saat berubah ukuran */
         }
 
-        .btn-yes {
-            background-color: #ff477e;
-            /* Pink dominan */
+        #btn-saya {
+            background-color: #ff69b4;
             color: white;
-            padding: 12px 35px;
+            padding: 12px 24px;
             font-size: 16px;
-            box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            white-space: nowrap;
         }
 
-        .btn-yes:hover {
-            background-color: #ff2a6d;
+        #btn-saya:hover {
+            background-color: #ff1493;
         }
 
-        .btn-no {
-            background-color: #f1f2f6;
-            color: #576574;
-            padding: 12px 30px;
+        #btn-bukan {
+            background-color: #f0f0f0;
+            color: #777;
+            padding: 12px 24px;
             font-size: 16px;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -103,62 +95,58 @@
 <body>
 
     <div class="container">
-        <!-- Container untuk GIF agar ukurannya terkontrol (sedang) -->
+        <!-- Tempat GIF Tenor -->
         <div class="gif-container">
             <div class="tenor-gif-embed" data-postid="14039433467847577032" data-share-method="host"
                 data-aspect-ratio="1" data-width="100%">
-                <a href="https://tenor.com/view/bubu-gif-14039433467847577032">Bubu Sticker</a> from
+                <a href="https://tenor.com/view/bubu-gif-14039433467847577032">Bubu Sticker</a>from
                 <a href="https://tenor.com/search/bubu-stickers">Bubu Stickers</a>
             </div>
             <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
         </div>
 
-        <h1><span class="highlight">Siapa yang ulang tahun hari ini?</span></h1>
+        <!-- Teks Highlight -->
+        <h1>Siapa yang ulang tahun hari ini?</h1>
 
+        <!-- Tombol Pilihan -->
         <div class="buttons">
-            <!-- Tombol "Saya" akan diarahkan ke next1.html -->
-            <button class="btn-yes" id="btnYes" onclick="window.location.href='next1.html'">Saya</button>
-            <button class="btn-no" id="btnNo">Bukan Saya</button>
+            <button id="btn-saya">Saya</button>
+            <button id="btn-bukan">Bukan saya</button>
         </div>
     </div>
 
-    <!-- Script untuk menjalankan logika permainannya -->
+    <!-- Script Logika Permainan Tombol -->
     <script>
-        const btnYes = document.getElementById('btnYes');
-        const btnNo = document.getElementById('btnNo');
+        const btnSaya = document.getElementById('btn-saya');
+        const btnBukan = document.getElementById('btn-bukan');
 
-        // Ukuran awal tombol 'Saya'
-        let yesSize = 16;
-        let yesPaddingVertical = 12;
-        let yesPaddingHorizontal = 35;
+        // Ukuran awal tombol "Saya"
+        let btnSayaSize = 16;
+        let btnSayaPaddingV = 12;
+        let btnSayaPaddingH = 24;
 
-        // Ukuran awal tombol 'Bukan Saya'
-        let noSize = 16;
-        let noPaddingVertical = 12;
-        let noPaddingHorizontal = 30;
+        btnBukan.addEventListener('click', () => {
+            // Mengecilkan tombol "Bukan Saya"
+            const currentSize = parseFloat(window.getComputedStyle(btnBukan).fontSize);
+            const newSize = currentSize * 0.8; // Mengecil 20% setiap di-klik
+            btnBukan.style.fontSize = `${newSize}px`;
+            btnBukan.style.padding = `${newSize * 0.75}px ${newSize * 1.5}px`;
 
-        btnNo.addEventListener('click', () => {
-            // 1. Membesarkan tombol "Saya" secara agresif
-            yesSize += 25;
-            yesPaddingVertical += 15;
-            yesPaddingHorizontal += 25;
-            btnYes.style.fontSize = `${yesSize}px`;
-            btnYes.style.padding = `${yesPaddingVertical}px ${yesPaddingHorizontal}px`;
+            // Membesarkan tombol "Saya"
+            btnSayaSize += 15; // Font membesar
+            btnSayaPaddingV += 10; // Padding vertikal membesar
+            btnSayaPaddingH += 20; // Padding horizontal membesar
 
-            // 2. Mengecilkan tombol "Bukan Saya" perlahan-lahan
-            noSize -= 3;
-            noPaddingVertical -= 2;
-            noPaddingHorizontal -= 4;
+            btnSaya.style.fontSize = `${btnSayaSize}px`;
+            btnSaya.style.padding = `${btnSayaPaddingV}px ${btnSayaPaddingH}px`;
+        });
 
-            // Mencegah error jika ukuran terlalu kecil/negatif
-            if (noSize < 2) {
-                btnNo.style.display = 'none'; // Sembunyikan sama sekali kalau sudah mentok
-            } else {
-                btnNo.style.fontSize = `${noSize}px`;
-                btnNo.style.padding = `${noPaddingVertical}px ${noPaddingHorizontal}px`;
-            }
+        btnSaya.addEventListener('click', () => {
+            // Arahkan ke halaman selanjutnya jika tombol "Saya" diklik
+            window.location.href = 'next1.html';
         });
     </script>
+
 </body>
 
 </html>

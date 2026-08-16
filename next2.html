@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buka Kadonya!</title>
+    <!-- Font cantik dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk Icon Kado, Bintang, dan Hati -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+            /* Mencegah layar bergeser saat efek partikel muncul */
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #ff69b4;
+            /* Warna Hot Pink */
+            font-size: 1.8rem;
+            background-color: #fff0f5;
+            padding: 12px 30px;
+            border-radius: 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.15);
+            z-index: 10;
+        }
+
+        /* Styling Container Kado */
+        .gift-container {
+            font-size: 120px;
+            color: #ff69b4;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.2s;
+            /* Efek bayangan biar icon kadonya terlihat timbul */
+            filter: drop-shadow(0 10px 15px rgba(255, 105, 180, 0.3));
+        }
+
+        .gift-container:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animasi Goyang (Shake) */
+        @keyframes shake {
+            0% {
+                transform: scale(1.1) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.1) rotate(-15deg);
+            }
+
+            50% {
+                transform: scale(1.1) rotate(15deg);
+            }
+
+            75% {
+                transform: scale(1.1) rotate(-15deg);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(0deg);
+            }
+        }
+
+        .shake-animation {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* Styling Partikel (Bintang & Hati) */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            /* Partikel tidak bisa diklik */
+            z-index: 5;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Klik kado ini</h1> 
+
+    <!-- Icon Kado -->
+    <div class="gift-container" id="gift-box">
+        <i class="fa-solid fa-gift"></i>
+    </div>
+
+    <script>
+        const giftBox = document.getElementById('gift-box');
+        let clickCount = 0;
+        const maxClicks = 10;
+
+        // Pilihan icon dan warna untuk partikel ledakan
+        const icons = ['fa-star', 'fa-heart'];
+        const colors = ['#ff69b4', '#ff1493', '#ffd700', '#00bfff', '#9370db', '#ff4500'];
+
+        giftBox.addEventListener('click', (e) => {
+            clickCount++;
+
+            // 1. Tambahkan Efek Goyang (Shake)
+            giftBox.classList.remove('shake-animation');
+            void giftBox.offsetWidth; // Trik ajaib untuk me-reset animasi CSS
+            giftBox.classList.add('shake-animation');
+
+            // 2. Buat Partikel (Confetti Icon)
+            createParticles();
+
+            // 3. Cek apakah sudah 10 kali klik
+            if (clickCount >= maxClicks) {
+                // Beri sedikit jeda agar partikel terakhir terlihat, lalu pindah halaman
+                setTimeout(() => {
+                    window.location.href = 'next3.html';
+                }, 600);
+            }
+        });
+
+        function createParticles() {
+            // Ambil posisi tengah dari kado
+            const rect = giftBox.getBoundingClientRect();
+            const centerX = rect.left + (rect.width / 2);
+            const centerY = rect.top + (rect.height / 2);
+
+            // Buat 15 partikel per klik
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('i');
+
+                // Pilih icon dan warna acak
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                particle.classList.add('fa-solid', randomIcon, 'particle');
+                particle.style.color = randomColor;
+
+                // Posisi awal di tengah kado
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+
+                document.body.appendChild(particle);
+
+                // Matematika acak untuk arah ledakan partikel (menyebar ke segala arah)
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 150 + 50; // Jarak tembakan antara 50px - 200px
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                // Animasikan partikel menggunakan Web Animations API
+                const animation = particle.animate([
+                    { transform: `translate(-50%, -50%) scale(0.5) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.5) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: 600 + Math.random() * 400, // Durasi acak 0.6s - 1s
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    fill: 'forwards'
+                });
+
+                // Hapus elemen partikel dari DOM setelah animasi selesai agar website tidak lemot
+                animation.onfinish = () => {
+                    particle.remove();
+                };
+            }
+        }
+    </script>
+
+</body>
+
+</html>

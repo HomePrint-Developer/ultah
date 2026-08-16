@@ -18,7 +18,6 @@
             margin: 0;
             text-align: center;
             overflow: hidden;
-            /* Mencegah scrollbar saat tombol "Saya" jadi raksasa */
         }
 
         .container {
@@ -29,21 +28,17 @@
             z-index: 10;
         }
 
-        /* Container GIF dibatasi ukurannya dan dibuat unclickable */
         .gif-container {
             width: 220px;
             max-width: 100%;
             pointer-events: none;
-            /* Ini yang bikin GIF gak bisa di-klik */
             margin-bottom: 10px;
         }
 
         h1 {
             color: #ff69b4;
-            /* Warna Hot Pink */
             font-size: 1.5rem;
             background-color: #fff0f5;
-            /* Highlight background pink sangat muda */
             padding: 10px 25px;
             border-radius: 30px;
             margin-bottom: 30px;
@@ -56,7 +51,6 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            /* Agar rapi di layar kecil */
         }
 
         button {
@@ -66,7 +60,6 @@
             font-family: 'Nunito', sans-serif;
             font-weight: bold;
             transition: all 0.2s ease;
-            /* Efek transisi mulus saat berubah ukuran */
         }
 
         #btn-saya {
@@ -95,7 +88,6 @@
 <body>
 
     <div class="container">
-        <!-- Tempat GIF Tenor -->
         <div class="gif-container">
             <div class="tenor-gif-embed" data-postid="14039433467847577032" data-share-method="host"
                 data-aspect-ratio="1" data-width="100%">
@@ -105,44 +97,44 @@
             <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
         </div>
 
-        <!-- Teks Highlight -->
         <h1>Siapa yang ulang tahun hari ini?</h1>
 
-        <!-- Tombol Pilihan -->
         <div class="buttons">
             <button id="btn-saya">Saya</button>
             <button id="btn-bukan">Bukan saya</button>
         </div>
     </div>
 
-    <!-- Script Logika Permainan Tombol -->
     <script>
+        // --- BAGIAN BARU: RESET SEMUA IZIN SAAT MULAI DARI AWAL ---
+        sessionStorage.clear();
+        // ----------------------------------------------------------
+
         const btnSaya = document.getElementById('btn-saya');
         const btnBukan = document.getElementById('btn-bukan');
 
-        // Ukuran awal tombol "Saya"
         let btnSayaSize = 16;
         let btnSayaPaddingV = 12;
         let btnSayaPaddingH = 24;
 
         btnBukan.addEventListener('click', () => {
-            // Mengecilkan tombol "Bukan Saya"
             const currentSize = parseFloat(window.getComputedStyle(btnBukan).fontSize);
-            const newSize = currentSize * 0.8; // Mengecil 20% setiap di-klik
+            const newSize = currentSize * 0.8;
             btnBukan.style.fontSize = `${newSize}px`;
             btnBukan.style.padding = `${newSize * 0.75}px ${newSize * 1.5}px`;
 
-            // Membesarkan tombol "Saya"
-            btnSayaSize += 15; // Font membesar
-            btnSayaPaddingV += 10; // Padding vertikal membesar
-            btnSayaPaddingH += 20; // Padding horizontal membesar
+            btnSayaSize += 15;
+            btnSayaPaddingV += 10;
+            btnSayaPaddingH += 20;
 
             btnSaya.style.fontSize = `${btnSayaSize}px`;
             btnSaya.style.padding = `${btnSayaPaddingV}px ${btnSayaPaddingH}px`;
         });
 
         btnSaya.addEventListener('click', () => {
-            // Arahkan ke halaman selanjutnya jika tombol "Saya" diklik
+            // --- BAGIAN BARU: MEMBERIKAN IZIN UNTUK KE NEXT1.HTML ---
+            sessionStorage.setItem('izin_next1', 'true');
+            // --------------------------------------------------------
             window.location.href = 'next1.html';
         });
     </script>

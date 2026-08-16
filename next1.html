@@ -51,7 +51,6 @@
             justify-content: center;
             flex-wrap: wrap;
             min-height: 50px;
-            /* Menjaga tinggi agar saat satu tombol hilang, layout tidak melompat */
         }
 
         button {
@@ -64,11 +63,9 @@
             font-size: 16px;
             box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
             white-space: nowrap;
-            /* Efek transisi untuk fade out */
             transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.2s ease;
         }
 
-        /* Desain awal untuk kedua tombol dibuat seragam */
         .btn-choice {
             background-color: #ff69b4;
             color: white;
@@ -78,66 +75,145 @@
             background-color: #ff1493;
         }
 
-        /* Class khusus yang ditambahkan via JavaScript untuk membuat tombol menghilang */
         .fade-out {
             opacity: 0;
             transform: scale(0.5) translateY(20px);
             pointer-events: none;
-            /* Supaya tidak bisa diklik lagi saat sedang menghilang */
+        }
+
+        /* --- STYLING UNTUK POP-UP ANTI-CURANG --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            /* Sengaja dibuat putih pekat menutupi seluruh layar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 25px;
+            max-width: 300px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content p {
+            color: #4a4a4a;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 15px 0 20px 0;
+        }
+
+        .btn-oke {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        .btn-oke:hover {
+            background-color: #ff1493;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <!-- Tempat GIF Tenor -->
+    <!-- --- ELEMEN POP-UP ANTI-CURANG --- -->
+    <div id="cheat-alert" class="modal-overlay">
+        <div class="modal-content">
+            <div class="gif-container" style="margin-bottom: 0;">
+                <div class="tenor-gif-embed" data-postid="3054031450086877982" data-share-method="host"
+                    data-aspect-ratio="1" data-width="100%">
+                    <a href="https://tenor.com/view/bubu-dudu-sseeyall-gif-3054031450086877982">Bubu Dudu Sseeyall
+                        Sticker</a>from
+                    <a href="https://tenor.com/search/bubu+dudu-stickers">Bubu Dudu Stickers</a>
+                </div>
+            </div>
+            <p>Harus berurutan dari awal ya sayangg</p>
+            <button id="btn-back" class="btn-oke">Oke</button>
+        </div>
+    </div>
+
+    <!-- Konten Utama -->
+    <div class="container" id="main-content" style="display: none;">
         <div class="gif-container">
             <div class="tenor-gif-embed" data-postid="3603040055391355358" data-share-method="host"
                 data-aspect-ratio="1" data-width="100%">
                 <a href="https://tenor.com/view/bu-bu-gif-3603040055391355358">Bu Bu Sticker</a>from
                 <a href="https://tenor.com/search/bu+bu-stickers">Bu Bu Stickers</a>
             </div>
-            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
         </div>
 
-        <!-- Teks Highlight -->
-        <h1>Hari ini tanggal berapa ya?? 🗓️</h1>
+        <h1>Hari ini tanggal berapa ya??</h1>
 
-        <!-- Tombol Pilihan -->
         <div class="buttons">
             <button id="btn-target" class="btn-choice">15 Agustus 2026</button>
-            <!-- Teks tombol ini dikosongkan dulu, nanti diisi otomatis oleh JavaScript -->
             <button id="btn-today" class="btn-choice">Memuat...</button>
         </div>
     </div>
 
-    <!-- Script Logika Permainan Tombol & Waktu -->
+    <!-- Script Tenor dipanggil satu kali saja -->
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+    <!-- Script Logika -->
     <script>
-        const btnTarget = document.getElementById('btn-target');
-        const btnToday = document.getElementById('btn-today');
+        // --- LOGIKA ANTI-CURANG ---
+        // Cek apakah dia punya izin dari index.html
+        if (!sessionStorage.getItem('izin_next1')) {
+            // Kalau gak punya, munculkan pop up dan jangan tampilkan konten
+            document.getElementById('cheat-alert').classList.add('show');
 
-        // --- BAGIAN BARU: SET TANGGAL HARI INI SECARA OTOMATIS ---
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        const hariIni = new Date().toLocaleDateString('id-ID', options);
-        btnToday.textContent = hariIni;
-        // ---------------------------------------------------------
+            document.getElementById('btn-back').addEventListener('click', () => {
+                window.location.href = 'index.html'; // Usir balik ke index
+            });
+        } else {
+            // Kalau punya izin, tampilkan konten halaman
+            document.getElementById('main-content').style.display = 'flex';
 
-        btnToday.addEventListener('click', () => {
-            // Tambahkan class 'fade-out' untuk memicu animasi CSS menghilang
-            btnToday.classList.add('fade-out');
+            // --- LOGIKA NORMAL HALAMAN NEXT1 ---
+            const btnTarget = document.getElementById('btn-target');
+            const btnToday = document.getElementById('btn-today');
 
-            // Opsional: hapus elemen dari DOM sepenuhnya setelah animasi selesai (500ms)
-            // agar layout menyesuaikan dan tombol target berada tepat di tengah.
-            setTimeout(() => {
-                btnToday.style.display = 'none';
-            }, 500);
-        });
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const hariIni = new Date().toLocaleDateString('id-ID', options);
+            btnToday.textContent = hariIni;
 
-        btnTarget.addEventListener('click', () => {
-            // Arahkan ke halaman selanjutnya
-            window.location.href = 'next2.html';
-        });
+            btnToday.addEventListener('click', () => {
+                btnToday.classList.add('fade-out');
+                setTimeout(() => {
+                    btnToday.style.display = 'none';
+                }, 500);
+            });
+
+            btnTarget.addEventListener('click', () => {
+                // Beri izin untuk ke halaman next2.html
+                sessionStorage.setItem('izin_next2', 'true');
+                window.location.href = 'next2.html';
+            });
+        }
     </script>
 
 </body>

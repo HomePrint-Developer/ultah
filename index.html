@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Kesayangan</title>
+
+    <!-- Menggunakan font Google Poppins agar terlihat manis -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #ffffff;
+            /* Tema dominan putih */
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+            /* Mencegah layar bisa di-scroll saat tombol membesar */
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .gif-container {
+            width: 220px;
+            /* Ukuran sedang, tidak terlalu besar di HP maupun laptop */
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.2);
+            /* Sedikit bayangan pink */
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .highlight {
+            color: #ff477e;
+            /* Warna teks pink */
+            background-color: #ffe4e8;
+            /* Background highlight pink pudar */
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            /* Agar responsif di layar hp yang sempit */
+        }
+
+        button {
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            /* Transisi halus saat ukurannya berubah */
+        }
+
+        .btn-yes {
+            background-color: #ff477e;
+            /* Pink dominan */
+            color: white;
+            padding: 12px 35px;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
+        }
+
+        .btn-yes:hover {
+            background-color: #ff2a6d;
+        }
+
+        .btn-no {
+            background-color: #f1f2f6;
+            color: #576574;
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Container untuk GIF agar ukurannya terkontrol (sedang) -->
+        <div class="gif-container">
+            <div class="tenor-gif-embed" data-postid="14039433467847577032" data-share-method="host"
+                data-aspect-ratio="1" data-width="100%">
+                <a href="https://tenor.com/view/bubu-gif-14039433467847577032">Bubu Sticker</a> from
+                <a href="https://tenor.com/search/bubu-stickers">Bubu Stickers</a>
+            </div>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        </div>
+
+        <h1><span class="highlight">Siapa yang ulang tahun hari ini?</span></h1>
+
+        <div class="buttons">
+            <!-- Tombol "Saya" akan diarahkan ke next1.html -->
+            <button class="btn-yes" id="btnYes" onclick="window.location.href='next1.html'">Saya</button>
+            <button class="btn-no" id="btnNo">Bukan Saya</button>
+        </div>
+    </div>
+
+    <!-- Script untuk menjalankan logika permainannya -->
+    <script>
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+
+        // Ukuran awal tombol 'Saya'
+        let yesSize = 16;
+        let yesPaddingVertical = 12;
+        let yesPaddingHorizontal = 35;
+
+        // Ukuran awal tombol 'Bukan Saya'
+        let noSize = 16;
+        let noPaddingVertical = 12;
+        let noPaddingHorizontal = 30;
+
+        btnNo.addEventListener('click', () => {
+            // 1. Membesarkan tombol "Saya" secara agresif
+            yesSize += 25;
+            yesPaddingVertical += 15;
+            yesPaddingHorizontal += 25;
+            btnYes.style.fontSize = `${yesSize}px`;
+            btnYes.style.padding = `${yesPaddingVertical}px ${yesPaddingHorizontal}px`;
+
+            // 2. Mengecilkan tombol "Bukan Saya" perlahan-lahan
+            noSize -= 3;
+            noPaddingVertical -= 2;
+            noPaddingHorizontal -= 4;
+
+            // Mencegah error jika ukuran terlalu kecil/negatif
+            if (noSize < 2) {
+                btnNo.style.display = 'none'; // Sembunyikan sama sekali kalau sudah mentok
+            } else {
+                btnNo.style.fontSize = `${noSize}px`;
+                btnNo.style.padding = `${noPaddingVertical}px ${noPaddingHorizontal}px`;
+            }
+        });
+    </script>
+</body>
+
+</html>
